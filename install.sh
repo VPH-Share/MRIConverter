@@ -101,7 +101,7 @@ CWD=$PWD
 clone_repo
 cd $REPO_NAME-master
 log "Provisioning ${REPO_NAME}"
-./manage/provision.sh 2>&1 | tee ~/$REPO_NAME-install.log
+$REPO_DIR/manage/provision.sh 2>&1 | tee ~/$REPO_NAME-install.log
 cd $CWD
 #######################################
 # Cleanup
