@@ -5,6 +5,10 @@ err() {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
 }
 
+log() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&1
+}
+
 # Check whether a command exists - returns 0 if it does, 1 if it does not
 exists() {
   if $(command -v $1 &>/dev/null); then
