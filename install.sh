@@ -15,6 +15,10 @@ err() {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2
 }
 
+log() {
+  echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&1
+}
+
 # Check whether a command exists - returns 0 if it does, 1 if it does not
 exists() {
   if $(command -v $1 &>/dev/null); then
@@ -78,12 +82,15 @@ fi
 # Download Repository
 clone_repo() {
     if exists git; then
-        git clone $REPO_URL $REPO_NAME-master
+      log "Cloning ${REPO_NAME} Repository..."
+      git clone $REPO_URL $REPO_NAME-master
     elif $(exists wget) && $(exists tar); then
+      log "Downloading ${REPO_NAME} tarball..."
         wget -Nq --no-check-certificate $REPO_URL/archive/master.tar.gz -O $REPO_NAME.tar.gz
         tar xf $REPO_NAME.tar.gz
     else
-        pkginstall git wget tar
+        log "Installing installed packages: wget, tar"
+        pkginstall wget tar
         clone_repo
     fi
 }
@@ -92,6 +99,7 @@ clone_repo() {
 CWD=$PWD
 clone_repo
 cd $REPO_NAME-master
+log "Provisioning ${REPO_NAME}"
 ./manage/provision.sh 2>&1 | tee ~/$REPO_NAME-install.log
 cd $CWD
 #######################################
