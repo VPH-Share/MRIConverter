@@ -21,3 +21,4 @@ pkgremove python-dev python-lxml
 pkgremove python-pip
 #######################################
 sudo rm -rf /webapp
+sudo rm /root/$REPO_NAME-install.log
