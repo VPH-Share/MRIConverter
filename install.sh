@@ -4,7 +4,7 @@ set -o errexit
 set -e
 
 #######################################
-export REPO_URL="https://github.com/VPH-Share/MRIConvertor"
+export REPO_URL="https://github.com/VPH-Share/MRIConverter"
 export REPO_URL=${REPO_URL%/}         # Remove trailing slash, if any
 export REPO_NAME=${REPO_URL##*/}      # Extract Repository name
 export REPO_USER=${REPO_URL%/*}       # Extract Repository user
