@@ -107,7 +107,3 @@ log "Provisioning ${REPO_NAME}"
 $REPO_DIR/manage/provision.sh 2>&1 | tee ~/$REPO_NAME-install.log
 cd $CWD
 #######################################
-# Cleanup
-pkgclean
-pkgautoremove
-history -c
