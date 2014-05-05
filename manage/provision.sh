@@ -5,22 +5,24 @@ shopt -s expand_aliases
 #######################################
 # Source helper utilities
 source manage/utils.sh
-setlocales
+log "Updating OS packages"
 pkgupdate
+log "Setting GB locale"
+setlocales
 #######################################
-# Install MRIConverter and dependencies
+log  "Installing MRIConverter and dependencies"
 pkginstall libgtk2.0-0 libsm-dev libjpeg62-dev
-sudo tar xzf vendors/MRIConvert-2.0.7-x86_64.tar.gz -C vendors
+sudo tar xzf $REPO_DIR/vendors/MRIConvert-2.0.7-x86_64.tar.gz -C vendors
 #######################################
-# Install Webservices Dependencies
+log "Installing SOAP Webservice dependencies"
 pkginstall python-pip
 pkginstall python-dev python-lxml
-sudo pip install -r manage/requirements.txt
+sudo pip install -r $REPO_DIR/manage/requirements.txt
 #######################################
-# Configure init.d to autostart
-sudo cat manage/initd.mriconverter > /etc/init.d/mriconverter
+log "Configure SOAP webservice to autostart"
+sudo cat $REPO_DIR/manage/initd.mriconverter > /etc/init.d/mriconverter
 sudo chmod +x /etc/init.d/mriconverter
 sudo update-rc.d mriconverter defaults
 #######################################
-# Start application
+log "Starting application"
 sudo service mriconverter start
