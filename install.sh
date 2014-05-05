@@ -8,7 +8,7 @@ export REPO_URL="https://github.com/VPH-Share/MRIConvertor"
 export REPO_URL=${REPO_URL%/}         # Remove trailing slash, if any
 export REPO_NAME=${REPO_URL##*/}      # Extract Repository name
 export REPO_USER=${REPO_URL%/*}       # Extract Repository user
-export REPO_DIR=/root/$REPO_NAME-master
+export REPO_DIR=/webapp/$REPO_NAME-master
 #######################################
 # Error Message
 err() {
@@ -86,8 +86,9 @@ clone_repo() {
       git clone $REPO_URL $REPO_NAME-master
     elif $(exists wget) && $(exists tar); then
       log "Downloading ${REPO_NAME} tarball..."
-        wget -Nq --no-check-certificate $REPO_URL/archive/master.tar.gz -O $REPO_NAME.tar.gz
-        tar xf $REPO_NAME.tar.gz
+      wget -Nq --no-check-certificate $REPO_URL/archive/master.tar.gz -O /webapp/$REPO_NAME.tar.gz
+      log "Extracting ${$REPO_NAME} tarball..."
+      tar xf $REPO_NAME.tar.gz
     else
         log "Installing installed packages: wget, tar"
         pkginstall wget tar
