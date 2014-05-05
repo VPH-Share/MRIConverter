@@ -42,7 +42,10 @@ EOF
 }
 
 # Package management aliases
-if [ -f /etc/debian-release ]; then
+OS=$(lsb_release -si)
+ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
+VER=$(lsb_release -sr)
+if [ "$OS" == "Ubuntu" ]; then
     alias pkgclean='sudo apt-get -y clean'
     alias pkgpurge='sudo apt-get -y purge'
     alias pkgsearch='sudo apt-get search'
