@@ -1,5 +1,11 @@
 #!/bin/bash
 #######################################
+export REPO_URL="https://github.com/VPH-Share/MRIConverter"
+export REPO_URL=${REPO_URL%/}         # Remove trailing slash, if any
+export REPO_NAME=${REPO_URL##*/}      # Extract Repository name
+export REPO_USER=${REPO_URL%/*}       # Extract Repository user
+export REPO_DIR=/webapp/$REPO_NAME-master
+#######################################
 # Error Message
 err() {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: $@" >&2

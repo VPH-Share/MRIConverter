@@ -4,7 +4,7 @@ set -o errexit
 shopt -s expand_aliases
 #######################################
 # Source helper utilities
-source manage/utils.sh
+source $REPO_DIR/manage/utils.sh
 log "Updating OS packages"
 pkgupdate
 log "Setting GB locale"
