@@ -87,7 +87,7 @@ clone_repo() {
     elif $(exists wget) && $(exists tar); then
       log "Downloading ${REPO_NAME} tarball..."
       wget -Nq --no-check-certificate $REPO_URL/archive/master.tar.gz -O /webapp/$REPO_NAME.tar.gz
-      log "Extracting ${$REPO_NAME} tarball..."
+      log "Extracting ${REPO_NAME} tarball..."
       tar xf $REPO_NAME.tar.gz
     else
         log "Installing installed packages: wget, tar"
