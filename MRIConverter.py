@@ -1,4 +1,4 @@
-import os
+from os import basename, splitext, join
 import emissary
 import soaplib
 from soaplib.core.service import soap, rpc, DefinitionBase
@@ -7,7 +7,7 @@ from soaplib.core.model.clazz import ClassModel
 from soaplib.core.server import wsgi
 
 
-CMD_STR = "vendors/MRIConvert-2.0.7/usr/bin/mcverter -v -f {FORMAT} -F -PatientName,-PatientId,-SeriesTime,-StudyId,-StudyDescription,-SeriesNumber,-SequenceName,-ProtocolName,-StudyDate,-SeriesDate,SeriesDescription -o {OUTPUT_PATH} {INPUT_PATH}"
+CMD_STR = "vendors/MRIConvert-2.0.7/usr/bin/mcverter -v -f {FORMAT} -F -PatientName,-PatientId,-SeriesTime,-StudyId,-StudyDescription,-SeriesNumber,-SequenceName,-ProtocolName,-StudyDate,-SeriesDate,SeriesDescription -o {OUTPUT_PATH} {FIXED_IMAGE} {MOVING_IMAGE}"
 
 class ConvertorResponse(ClassModel):
     """Response object holds the commandline execution response"""
@@ -17,7 +17,8 @@ class ConvertorResponse(ClassModel):
     stderr = String
     cwd = String
 
-    outputPath = String
+    fixed_output_path = String
+    moving_output_path = String
 
     def __init__(self, command=None):
         self.command = command
@@ -35,14 +36,19 @@ def create_response(out):
     return r
 
 class MRIConverter(DefinitionBase):
-    @soap(String, String, String, _returns=ConvertorResponse)
-    def convert(self, img_format, inputPath, outputPath):
-        command = CMD_STR.format(FORMAT=img_format, INPUT_PATH=inputPath,OUTPUT_PATH=outputPath)
+    @soap(String, String, String, String, _returns=ConvertorResponse)
+    def convert(self, img_format, fixed_image_path, moving_image_path, output_path):
+        command = CMD_STR.format(FORMAT=img_format,
+                                 FIXED_IMAGE=inputPath,
+                                 MOVING_IMAGE=moving_image_path.
+                                 OUTPUT_PATH=output_path)
         try:
             out = emissary.envoy.run(command)
             r = create_response(out)
-            filename = os.path.basename(os.path.splitext(inputPath)[0])
-            r.outputPath = os.path.join(outputPath, filename + ".mhd")
+            fixed_filename = basename(splitext(fixed_image_path)[0])
+            moving_filename = basename(splitext(moving_image_path)[0])
+            r.fixed_output_path = join(output_path, fixed_filename + ".mhd")
+            r.moving_output_path = join(output_path, moving_filename + ".mhd")
             return r
         except OSError, e:
             pass
