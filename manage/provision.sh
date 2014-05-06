@@ -32,3 +32,7 @@ pkgclean
 pkgautoremove
 history -c
 #######################################
+log "Zeroing out filesystem"
+dd if=/dev/zero of=/tmp/foo
+rm -f /tmp/foo
+#######################################

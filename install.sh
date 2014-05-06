@@ -99,11 +99,12 @@ clone_repo() {
     fi
 }
 #######################################
-# Provision application
+log "Provisioning $REPO_NAME..."
 CWD=$PWD
 clone_repo
 cd $REPO_NAME-master
 log "Provisioning ${REPO_NAME}"
 $REPO_DIR/manage/provision.sh 2>&1 | tee /root/$REPO_NAME-install.log
 cd $CWD
+log "$REPO_NAME provisioning complete."
 #######################################
