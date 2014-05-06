@@ -1,4 +1,4 @@
-from os import basename, splitext, join
+import os
 import emissary
 import soaplib
 from soaplib.core.service import soap, rpc, DefinitionBase
@@ -40,15 +40,15 @@ class MRIConverter(DefinitionBase):
     def convert(self, img_format, fixed_image_path, moving_image_path, output_path):
         command = CMD_STR.format(FORMAT=img_format,
                                  FIXED_IMAGE=inputPath,
-                                 MOVING_IMAGE=moving_image_path.
+                                 MOVING_IMAGE=moving_image_path,
                                  OUTPUT_PATH=output_path)
         try:
             out = emissary.envoy.run(command)
             r = create_response(out)
-            fixed_filename = basename(splitext(fixed_image_path)[0])
-            moving_filename = basename(splitext(moving_image_path)[0])
-            r.fixed_output_path = join(output_path, fixed_filename + ".mhd")
-            r.moving_output_path = join(output_path, moving_filename + ".mhd")
+            fixed_filename = os.path.basename(os.path.splitext(fixed_image_path)[0])
+            moving_filename = basename(os.path.splitext(moving_image_path)[0])
+            r.fixed_output_path = os.path.join(output_path, fixed_filename + ".mhd")
+            r.moving_output_path = os.path.join(output_path, moving_filename + ".mhd")
             return r
         except OSError, e:
             pass
