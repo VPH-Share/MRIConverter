@@ -27,6 +27,10 @@ sudo update-rc.d mriconverter defaults
 log "Starting application"
 sudo service mriconverter start
 #######################################
+log "Deconfigure Github Deployinator to autostart"
+sudo update-rc.d githubdeploy disable
+sudo rm /etc/init.d/githubdeploy
+#######################################
 log "Cleaning up..."
 pkgclean
 pkgautoremove
