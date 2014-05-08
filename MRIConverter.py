@@ -46,7 +46,7 @@ class MRIConverter(DefinitionBase):
             out = emissary.envoy.run(command)
             r = create_response(out)
             fixed_filename = os.path.basename(os.path.splitext(fixed_image_path)[0])
-            moving_filename = basename(os.path.splitext(moving_image_path)[0])
+            moving_filename = os.path.basename(os.path.splitext(moving_image_path)[0])
             r.fixed_output_path = os.path.join(output_path, fixed_filename + ".mhd")
             r.moving_output_path = os.path.join(output_path, moving_filename + ".mhd")
             return r
