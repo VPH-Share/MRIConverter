@@ -39,7 +39,7 @@ class MRIConverter(DefinitionBase):
     @soap(String, String, String, String, _returns=ConvertorResponse)
     def convert(self, img_format, fixed_image_path, moving_image_path, output_path):
         command = CMD_STR.format(FORMAT=img_format,
-                                 FIXED_IMAGE=inputPath,
+                                 FIXED_IMAGE=fixed_image_path,
                                  MOVING_IMAGE=moving_image_path,
                                  OUTPUT_PATH=output_path)
         try:
